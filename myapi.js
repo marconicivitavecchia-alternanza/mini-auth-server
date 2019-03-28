@@ -1,7 +1,10 @@
 var http = require('http');
 var express = require('express');
+var cors = require('cors');
 
 var app = express();
+app.use(cors());
+
 
 var users = [{name:'luigi',password:'luigi'},{name:'giovanni',password:'giovanni'}];
 
@@ -12,7 +15,7 @@ app.get('/login', function(req, res) {
 	let myres = {status: 'not found'};
 	console.log(`auth: ${req.query.auth}`);
 	users.forEach((user)=>{
-		let auth = new Buffer(user.name + ":" + user.password).toString("base64");
+		let auth = new Buffer(user.name + user.password).toString("base64");
 		console.log(`${user.name}: ${auth}`);
 		if (auth === req.query.auth) {
 			myres = {status: 'ok'};
